@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor // adiciona a variavél userService no constructor e realizar a injeção de dependências
@@ -27,6 +29,10 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> userList = userService.findAllUsers();
+        return ResponseEntity.ok().body(userList);
+    }
 }
 

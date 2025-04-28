@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,9 +21,13 @@ public class UserService {
     }
 
     @ReadOnlyProperty // Marca p/ ser somente leitura para o framework de mapeamento e, portanto, não será persistido.
-    public User findById (Long id) {
+    public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Usuário não encontrado")
         );
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 }
