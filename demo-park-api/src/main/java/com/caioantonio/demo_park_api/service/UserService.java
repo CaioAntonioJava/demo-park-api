@@ -27,7 +27,18 @@ public class UserService {
         );
     }
 
+    @ReadOnlyProperty
     public List<User> findAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        findById(id);
+        try {
+           userRepository.deleteById(id);
+        } catch (Exception exception) {
+            throw new RuntimeException("Não é possível deletar pois há entidades relacionadas ao usuário");
+        }
     }
 }
