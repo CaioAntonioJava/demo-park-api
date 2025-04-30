@@ -8,7 +8,6 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +32,18 @@ public class UserService {
     }
 
     @Transactional
+    public User changeUserPassword(Long id, String newPassword) {
+        User user = findById(id);
+        user.setPassword(newPassword);
+        return userRepository.save(user);
+    }
+
+
+    @Transactional
     public void deleteById(Long id) {
         findById(id);
         try {
-           userRepository.deleteById(id);
+            userRepository.deleteById(id);
         } catch (Exception exception) {
             throw new RuntimeException("Não é possível deletar pois há entidades relacionadas ao usuário");
         }
