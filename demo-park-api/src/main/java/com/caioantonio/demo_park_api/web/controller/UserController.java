@@ -2,6 +2,9 @@ package com.caioantonio.demo_park_api.web.controller;
 
 import com.caioantonio.demo_park_api.entity.User;
 import com.caioantonio.demo_park_api.service.UserService;
+import com.caioantonio.demo_park_api.web.dto.UserCreateDto;
+import com.caioantonio.demo_park_api.web.dto.UserResponseDto;
+import com.caioantonio.demo_park_api.web.dto.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +20,16 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) {
-        User newUser = userService.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    public ResponseEntity<UserResponseDto> create(@RequestBody UserCreateDto createDto) {
+        User newUser = userService.save(UserMapper.toUser(createDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(newUser));
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDto> getById(@PathVariable Long id) {
         User user = userService.findById(id);
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(UserMapper.toDto(user));
     }
 
     @GetMapping

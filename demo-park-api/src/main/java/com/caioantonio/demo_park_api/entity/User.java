@@ -30,7 +30,7 @@ public class User implements Serializable {
 
     @Column(name = "role", nullable = false, length = 25)
     @Enumerated(EnumType.STRING) // transforma o nome da CONST em uma STRING p/ salvar no banco.
-    private Role role;
+    private Role role = Role.ROLE_CLIENT;
 
     public enum Role {
         ROLE_ADMIN, ROLE_CLIENT
