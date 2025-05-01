@@ -34,9 +34,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         List<User> userList = userService.findAllUsers();
-        return ResponseEntity.ok().body(userList);
+        return ResponseEntity.ok(UserMapper.toListDto(userList));
     }
 
     @DeleteMapping("/{id}")
