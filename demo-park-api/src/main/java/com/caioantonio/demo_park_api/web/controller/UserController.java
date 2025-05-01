@@ -2,6 +2,7 @@ package com.caioantonio.demo_park_api.web.controller;
 
 import com.caioantonio.demo_park_api.entity.User;
 import com.caioantonio.demo_park_api.service.UserService;
+import com.caioantonio.demo_park_api.web.dto.UserChangePasswordDto;
 import com.caioantonio.demo_park_api.web.dto.UserCreateDto;
 import com.caioantonio.demo_park_api.web.dto.UserResponseDto;
 import com.caioantonio.demo_park_api.web.dto.mapper.UserMapper;
@@ -45,9 +46,13 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> updatePassword(@PathVariable Long id, @RequestBody User user) {
-        User userObj = userService.changeUserPassword(id, user.getPassword());
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserResponseDto> updatePassword(@PathVariable Long id, @RequestBody UserChangePasswordDto userChangePasswordDto) {
+        User userObj = userService.changeUserPassword(
+                id,
+                userChangePasswordDto.getNewPassword(),
+                userChangePasswordDto.getConfirmPassword(),
+                userChangePasswordDto.getCurrentPassword());
+        return ResponseEntity.ok(UserMapper.toDto(userObj));
     }
 }
 

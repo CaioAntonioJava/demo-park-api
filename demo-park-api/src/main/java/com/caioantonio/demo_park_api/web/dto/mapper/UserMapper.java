@@ -1,15 +1,22 @@
 package com.caioantonio.demo_park_api.web.dto.mapper;
 
 import com.caioantonio.demo_park_api.entity.User;
+import com.caioantonio.demo_park_api.web.dto.UserChangePasswordDto;
 import com.caioantonio.demo_park_api.web.dto.UserCreateDto;
 import com.caioantonio.demo_park_api.web.dto.UserResponseDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
+import java.util.Stack;
+
 public class UserMapper {
 
     public static User toUser(UserCreateDto createDto) {
         return new ModelMapper().map(createDto, User.class);
+    }
+
+    public static void changePasswordDto(UserChangePasswordDto userChangePasswordDto) {
+        new ModelMapper().map(userChangePasswordDto, User.class);
     }
 
     public static UserResponseDto toDto(User user) {
