@@ -1,5 +1,6 @@
 package com.caioantonio.demo_park_api.web.exception;
 
+import com.caioantonio.demo_park_api.exception.UsernameUniqueViolationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,5 +23,15 @@ public class ApiExeptionHandler {
                 .status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, "Campo(s) inválidos", result));
+    }
+
+    @ExceptionHandler(UsernameUniqueViolationException.class)
+    public ResponseEntity<ErrorMessage> UsernameUniqueViolationException(RuntimeException usernameUniqueViolationException, HttpServletRequest request) {
+
+        log.error("Api Error - ", usernameUniqueViolationException);
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, usernameUniqueViolationException.getMessage()));
     }
 }
