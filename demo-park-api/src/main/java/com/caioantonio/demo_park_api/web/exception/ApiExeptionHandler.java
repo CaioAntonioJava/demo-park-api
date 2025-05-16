@@ -1,5 +1,7 @@
 package com.caioantonio.demo_park_api.web.exception;
 
+import com.caioantonio.demo_park_api.exception.EntityNotFoundException;
+import com.caioantonio.demo_park_api.exception.PasswordInvalidException;
 import com.caioantonio.demo_park_api.exception.UsernameUniqueViolationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +18,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ApiExeptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(MethodArgumentNotValidException argumentNotValidException, HttpServletRequest request, BindingResult result) {
-
+    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(MethodArgumentNotValidException argumentNotValidException,
+                                                                        HttpServletRequest request,
+                                                                        BindingResult result) {
         log.error("Api Error - ", argumentNotValidException);
         return ResponseEntity
                 .status(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -26,7 +29,7 @@ public class ApiExeptionHandler {
     }
 
     @ExceptionHandler(UsernameUniqueViolationException.class)
-    public ResponseEntity<ErrorMessage> UsernameUniqueViolationException(RuntimeException usernameUniqueViolationException, HttpServletRequest request) {
+    public ResponseEntity<ErrorMessage> usernameUniqueViolationException(RuntimeException usernameUniqueViolationException, HttpServletRequest request) {
 
         log.error("Api Error - ", usernameUniqueViolationException);
         return ResponseEntity
@@ -34,4 +37,26 @@ public class ApiExeptionHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.CONFLICT, usernameUniqueViolationException.getMessage()));
     }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorMessage> entityNotFoundException(RuntimeException entityNotFoundException, HttpServletRequest request) {
+
+        log.error("Api Error - ", entityNotFoundException);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, entityNotFoundException.getMessage()));
+    }
+
+    @ExceptionHandler(PasswordInvalidException.class)
+    public ResponseEntity<ErrorMessage> passwordInvalidException(RuntimeException passwordInvalidException,
+                                                                 HttpServletRequest request) {
+
+        log.error("Api Error - ", passwordInvalidException);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, passwordInvalidException.getMessage()));
+    }
+
 }

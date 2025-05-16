@@ -1,6 +1,8 @@
 package com.caioantonio.demo_park_api.service;
 
 import com.caioantonio.demo_park_api.entity.User;
+import com.caioantonio.demo_park_api.exception.EntityNotFoundException;
+import com.caioantonio.demo_park_api.exception.PasswordInvalidException;
 import com.caioantonio.demo_park_api.exception.UsernameUniqueViolationException;
 import com.caioantonio.demo_park_api.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -31,7 +33,9 @@ public class UserService {
     @ReadOnlyProperty // Marca p/ ser somente leitura para o framework de mapeamento e, portanto, não será persistido.
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Usuário não encontrado")
+                () -> new EntityNotFoundException(String.format("""
+                        Usuário { ID = %s } não encontrado.
+                        """, id))
         );
     }
 
@@ -44,13 +48,13 @@ public class UserService {
     public User changeUserPassword(Long id, String newPassword, String confirmPassword, String currentPassword) {
 
         if (!newPassword.equals(confirmPassword)) {
-            throw new RuntimeException("Nova senha e confirmação de senha não conferem");
+            throw new PasswordInvalidException("Nova senha e confirmação de senha não conferem");
         }
 
         User user = findById(id);
 
         if (!user.getPassword().equals(currentPassword)) {
-            throw new RuntimeException("Senha atual não confere");
+            throw new PasswordInvalidException("Senha atual não confere");
         }
 
         user.setPassword(newPassword);
