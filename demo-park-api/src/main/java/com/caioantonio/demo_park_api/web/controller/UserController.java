@@ -71,6 +71,14 @@ public class UserController {
         return ResponseEntity.ok(UserMapper.toListDto(userList));
     }
 
+    @Operation(
+            summary = "Recurso para excluir um usuário cadastrado", description = "Recurso para excluir um usuário cadastrado",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Usuário excluído com sucesso",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
+                    @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+            })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteById(id);
