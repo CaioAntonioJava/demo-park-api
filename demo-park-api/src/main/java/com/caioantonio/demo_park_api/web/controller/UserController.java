@@ -71,6 +71,19 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+
+    @Operation(
+            summary = "Atualizar senha", description = "Atualizar senha",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Senha atualizada com sucesso",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
+                    @ApiResponse(responseCode = "400", description = "Senha atual inválida ou nova senha e confirmação de senha não conferem",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                    @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                    @ApiResponse(responseCode = "422", description = "Recurso não processado por dados de entrada inválidos",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+            })
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody UserChangePasswordDto userChangePasswordDto) {
         User userObj = userService.changeUserPassword(
@@ -81,4 +94,3 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 }
-
