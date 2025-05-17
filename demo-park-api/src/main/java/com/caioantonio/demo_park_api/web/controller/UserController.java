@@ -59,6 +59,12 @@ public class UserController {
         return ResponseEntity.ok().body(UserMapper.toDto(user));
     }
 
+    @Operation(
+            summary = "Recuperar todos os usuários cadastrados", description = "Recuperar todos os usuários cadastrados",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Recursos recuperados com sucesso",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class)))
+            })
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         List<User> userList = userService.findAllUsers();
