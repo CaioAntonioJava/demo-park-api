@@ -24,7 +24,7 @@ public class UserService {
             return userRepository.save(newUser);
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new UsernameUniqueViolationException(String.format("""
-                    Username {%s} já cadastrado
+                    Username  %s  já cadastrado
                     """, newUser.getUsername()));
         }
 

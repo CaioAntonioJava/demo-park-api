@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/users")
-@RequiredArgsConstructor // adiciona a variavél userService no constructor e realizar a injeção de dependências
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
