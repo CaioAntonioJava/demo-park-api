@@ -30,7 +30,7 @@ public class UserService {
 
     }
 
-    @ReadOnlyProperty // Marca p/ ser somente leitura para o framework de mapeamento e, portanto, não será persistido.
+    @ReadOnlyProperty
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(String.format("""
@@ -61,7 +61,6 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
 
     @Transactional
     public void deleteById(Long id) {
