@@ -25,15 +25,16 @@ public class JwtUtils {
 
 
     private JwtUtils() {
-
     }
 
     // PREPARA A KEY P/ SER CRIPTOGRAFADA NO MOMENTO DE CRIAÇÃO DO TOKEN
+
     private static Key generateKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
     // CÁLCULO ENTRE DATA DE CRIAÇÃO E EXPIRAÇÃO DO TOKEN
+
     private static Date toExpireDate(Date start) {
         LocalDateTime dateTime = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime end = dateTime.plusDays(EXPIRE_DAYS).plusHours(EXPIRE_HOURS).plusMinutes(EXPIRE_MINUTES);
@@ -41,6 +42,7 @@ public class JwtUtils {
     }
 
     // CRIAÇÃO DO TOKEN
+
     public static JwtToken createToken(String username, String role) {
         Date issuedAt = new Date();
         Date limit = toExpireDate(issuedAt);
@@ -57,6 +59,7 @@ public class JwtUtils {
     }
 
     // RECUPERAR CONTEÚDO DO TOKEN
+
     public static Claims getClaimsFromToken(String token) {
         try {
             return Jwts.parserBuilder()
@@ -71,11 +74,13 @@ public class JwtUtils {
     }
 
     // RECUPERAR O USERNAME QUE ESTÁ NO TOKEN
+
     public static String getUsernameFromToken(String token) {
         return getClaimsFromToken(token).getSubject();
     }
 
     // TESTA A VÁLIDADE DO TOKEN
+
     public static boolean isTokenValid(String token) {
         try {
             Jwts.parserBuilder()
@@ -91,6 +96,7 @@ public class JwtUtils {
     }
 
     // REFATORA O TOKEN P/ REMOVER A INSTRUÇÃO BEARER
+
     private static String refactorToken(String token) {
         if (token.contains(JWT_BEARER)) {
             return token.substring(JWT_BEARER.length());
