@@ -27,7 +27,6 @@ public class UserService {
                     Username  %s  já cadastrado
                     """, newUser.getUsername()));
         }
-
     }
 
     @ReadOnlyProperty
@@ -37,6 +36,20 @@ public class UserService {
                         Usuário { ID = %s } não encontrado.
                         """, id))
         );
+    }
+
+    @ReadOnlyProperty
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException(String.format("""
+                        Usuário { %s } não encontrado.
+                        """, username))
+        );
+    }
+
+    @ReadOnlyProperty
+    public User.Role findRoleByUsername(String username) {
+        return userRepository.findRoleByUsername(username);
     }
 
     @ReadOnlyProperty
