@@ -87,7 +87,6 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
     @Operation(
             summary = "Atualizar senha", description = "Atualizar senha",
             responses = {
