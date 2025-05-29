@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Recuperar um usuário pelo id", description = "Recuperar um usuário pelo id",
+            summary = "Recuperar um usuário pelo id", description = "Requisição exige autenticação. Acesso restrito a ADMIN | CLIENTE",
             security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "200", description = "Recurso recuperado com sucesso",
@@ -66,7 +66,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Recuperar todos os usuários cadastrados", description = "Recuperar todos os usuários cadastrados",
+            summary = "Recuperar todos os usuários cadastrados", description = "Requisição exige autenticação. Acesso restrito a ADMIN",
             security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "200", description = "Recursos recuperados com sucesso",
@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Recurso para excluir um usuário cadastrado", description = "Recurso para excluir um usuário cadastrado",
+            summary = "Recurso para excluir um usuário cadastrado", description = "Requisição exige autenticação. Acesso restrito a ADMIN",
             security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "200", description = "Usuário excluído com sucesso",
@@ -100,7 +100,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Atualizar senha", description = "Atualizar senha",
+            summary = "Atualizar senha", description = "Requisição exige autenticação. Acesso restrito a ADMIN | CLIENTE",
             security = @SecurityRequirement(name = "security"),
             responses = {
                     @ApiResponse(responseCode = "204", description = "Senha atualizada com sucesso",
