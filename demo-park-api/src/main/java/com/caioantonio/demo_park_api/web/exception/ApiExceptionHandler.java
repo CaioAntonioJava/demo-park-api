@@ -1,5 +1,6 @@
 package com.caioantonio.demo_park_api.web.exception;
 
+import com.caioantonio.demo_park_api.exception.CpfUniqueViolationException;
 import com.caioantonio.demo_park_api.exception.EntityNotFoundException;
 import com.caioantonio.demo_park_api.exception.PasswordInvalidException;
 import com.caioantonio.demo_park_api.exception.UsernameUniqueViolationException;
@@ -29,14 +30,14 @@ public class ApiExceptionHandler {
                 .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, "Campo(s) inválidos", result));
     }
 
-    @ExceptionHandler(UsernameUniqueViolationException.class)
-    public ResponseEntity<ErrorMessage> usernameUniqueViolationException(RuntimeException usernameUniqueViolationException, HttpServletRequest request) {
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
+    public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException uniqueViolationException, HttpServletRequest request) {
 
-        log.error("Api Error - ", usernameUniqueViolationException);
+        log.error("Api Error - ", uniqueViolationException);
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ErrorMessage(request, HttpStatus.CONFLICT, usernameUniqueViolationException.getMessage()));
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, uniqueViolationException.getMessage()));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
