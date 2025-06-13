@@ -9,7 +9,8 @@ import com.caioantonio.demo_park_api.web.dto.ClientResponseDto;
 import com.caioantonio.demo_park_api.web.dto.mapper.ClientMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,5 +39,12 @@ public class ClientController {
     public ResponseEntity<ClientResponseDto> getById(@PathVariable Long id) {
         Client client = clientService.getById(id);
         return ResponseEntity.ok().body(ClientMapper.toResponseDto(client));
+    }
+
+    @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<Client>> getAllClients(Pageable pageable) {
+        Page<Client> clients = clientService.getAllClientes(pageable);
+        return ResponseEntity.ok().body(clients);
     }
 }

@@ -5,13 +5,13 @@ import com.caioantonio.demo_park_api.exception.CpfUniqueViolationException;
 import com.caioantonio.demo_park_api.exception.EntityNotFoundException;
 import com.caioantonio.demo_park_api.repository.ClientRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.annotation.ReadOnlyProperty;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +36,10 @@ public class ClientService {
                 () -> new EntityNotFoundException(String.format("Cliente { ID = %s } não encontrado", id))
         );
         return client;
+    }
+
+    @ReadOnlyProperty
+    public Page<Client> getAllClientes(Pageable pageable) {
+        return clientRepository.findAll(pageable);
     }
 }
