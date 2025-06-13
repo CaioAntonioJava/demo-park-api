@@ -4,6 +4,7 @@ import com.caioantonio.demo_park_api.entity.Client;
 import com.caioantonio.demo_park_api.exception.CpfUniqueViolationException;
 import com.caioantonio.demo_park_api.exception.EntityNotFoundException;
 import com.caioantonio.demo_park_api.repository.ClientRepository;
+import com.caioantonio.demo_park_api.repository.projection.ClientProjection;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,7 +40,7 @@ public class ClientService {
     }
 
     @ReadOnlyProperty
-    public Page<Client> getAllClientes(Pageable pageable) {
-        return clientRepository.findAll(pageable);
+    public Page<ClientProjection> getAllClientes(Pageable pageable) {
+        return clientRepository.findAllPageable(pageable);
     }
 }

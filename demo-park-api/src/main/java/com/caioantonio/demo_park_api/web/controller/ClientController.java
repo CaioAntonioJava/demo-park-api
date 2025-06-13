@@ -2,11 +2,14 @@ package com.caioantonio.demo_park_api.web.controller;
 
 import com.caioantonio.demo_park_api.entity.Client;
 import com.caioantonio.demo_park_api.jwt.JwtUserDetails;
+import com.caioantonio.demo_park_api.repository.projection.ClientProjection;
 import com.caioantonio.demo_park_api.service.ClientService;
 import com.caioantonio.demo_park_api.service.UserService;
 import com.caioantonio.demo_park_api.web.dto.ClientCreateDto;
 import com.caioantonio.demo_park_api.web.dto.ClientResponseDto;
+import com.caioantonio.demo_park_api.web.dto.PageableDto;
 import com.caioantonio.demo_park_api.web.dto.mapper.ClientMapper;
+import com.caioantonio.demo_park_api.web.dto.mapper.PageableMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -43,8 +46,8 @@ public class ClientController {
 
     @GetMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<Client>> getAllClients(Pageable pageable) {
-        Page<Client> clients = clientService.getAllClientes(pageable);
-        return ResponseEntity.ok().body(clients);
+    public ResponseEntity<PageableDto> getAllClients(Pageable pageable) {
+        Page<ClientProjection> clients = clientService.getAllClientes(pageable);
+        return ResponseEntity.ok(PageableMapper.toPageDto(clients));
     }
 }
