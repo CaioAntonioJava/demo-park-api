@@ -2,12 +2,15 @@ package com.caioantonio.demo_park_api.service;
 
 import com.caioantonio.demo_park_api.entity.Client;
 import com.caioantonio.demo_park_api.exception.CpfUniqueViolationException;
+import com.caioantonio.demo_park_api.exception.EntityNotFoundException;
 import com.caioantonio.demo_park_api.repository.ClientRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,5 +28,13 @@ public class ClientService {
                     CPF '%s' não pode ser cadastrado, já existe no sistema
                     """, client.getCpf()));
         }
+    }
+
+    @ReadOnlyProperty
+    public Client getById(Long id) {
+        Client client = clientRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(String.format("Cliente { ID = %s } não encontrado", id))
+        );
+        return client;
     }
 }
