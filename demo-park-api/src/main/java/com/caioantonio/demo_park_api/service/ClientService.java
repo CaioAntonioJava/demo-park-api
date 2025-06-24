@@ -43,4 +43,9 @@ public class ClientService {
     public Page<ClientProjection> getAllClientes(Pageable pageable) {
         return clientRepository.findAllPageable(pageable);
     }
+
+    @ReadOnlyProperty
+    public Client getByUserid(Long id) {
+        return clientRepository.findByUserId(id);
+    }
 }

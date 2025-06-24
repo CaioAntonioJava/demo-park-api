@@ -8,13 +8,11 @@ import com.caioantonio.demo_park_api.service.UserService;
 import com.caioantonio.demo_park_api.web.dto.ClientCreateDto;
 import com.caioantonio.demo_park_api.web.dto.ClientResponseDto;
 import com.caioantonio.demo_park_api.web.dto.PageableDto;
-import com.caioantonio.demo_park_api.web.dto.UserResponseDto;
 import com.caioantonio.demo_park_api.web.dto.mapper.ClientMapper;
 import com.caioantonio.demo_park_api.web.dto.mapper.PageableMapper;
 import com.caioantonio.demo_park_api.web.exception.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -114,5 +112,12 @@ public class ClientController {
                                                      @PageableDefault(size = 5, sort = {"name"}) Pageable pageable) {
         Page<ClientProjection> clients = clientService.getAllClientes(pageable);
         return ResponseEntity.ok(PageableMapper.toPageDto(clients));
+    }
+
+    @GetMapping("/details")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<ClientResponseDto> getDetails(@AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
+        Client client = clientService.getByUserid(jwtUserDetails.getId());
+        return ResponseEntity.ok(ClientMapper.toResponseDto(client));
     }
 }
