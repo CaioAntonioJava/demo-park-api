@@ -1,9 +1,6 @@
 package com.caioantonio.demo_park_api.web.exception;
 
-import com.caioantonio.demo_park_api.exception.CpfUniqueViolationException;
-import com.caioantonio.demo_park_api.exception.EntityNotFoundException;
-import com.caioantonio.demo_park_api.exception.PasswordInvalidException;
-import com.caioantonio.demo_park_api.exception.UsernameUniqueViolationException;
+import com.caioantonio.demo_park_api.exception.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,7 +27,7 @@ public class ApiExceptionHandler {
                 .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, "Campo(s) inválidos", result));
     }
 
-    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class, CodeUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException uniqueViolationException, HttpServletRequest request) {
 
         log.error("Api Error - ", uniqueViolationException);
