@@ -7,6 +7,7 @@ import com.caioantonio.demo_park_api.web.dto.ParkingSpaceResponseDto;
 import com.caioantonio.demo_park_api.web.dto.mapper.ParkingSpaceMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,28 +24,25 @@ public class ParkingSpaceController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> create (@RequestBody @Valid ParkingSpaceCreateDto parkingSpaceCreateDto) {
+    public ResponseEntity<ParkingSpaceResponseDto> create(@RequestBody @Valid ParkingSpaceCreateDto parkingSpaceCreateDto) {
 
         ParkingSpace parkingSpace = ParkingSpaceMapper.toParkingSpace(parkingSpaceCreateDto);
         parkingSpaceService.create(parkingSpace);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequestUri().path("/{code}")
-                .buildAndExpand(parkingSpace.getCode())
-                .toUri();
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentRequestUri().path("/{code}")
+//                .buildAndExpand(parkingSpace.getCode())
+//                .toUri();
 
-        return ResponseEntity.created(location).build();
-
+        return ResponseEntity.status(HttpStatus.CREATED).body(ParkingSpaceMapper.toParkingSpaceResponseDto(parkingSpace));
     }
 
     @GetMapping("/{code}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ParkingSpaceResponseDto> getByCode ( @PathVariable String code) {
+    public ResponseEntity<ParkingSpaceResponseDto> getByCode(@PathVariable String code) {
 
-       ParkingSpace parkingSpace = parkingSpaceService.getByCode(code);
+        ParkingSpace parkingSpace = parkingSpaceService.getByCode(code);
 
         return ResponseEntity.ok(ParkingSpaceMapper.toParkingSpaceResponseDto(parkingSpace));
-
     }
-
 }
