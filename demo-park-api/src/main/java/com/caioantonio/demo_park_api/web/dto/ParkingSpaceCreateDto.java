@@ -20,6 +20,6 @@ public class ParkingSpaceCreateDto {
     private String code;
 
     @NotBlank
-    @Pattern(regexp = "LIVRE | OCUPADA")
+    @Pattern(regexp = "LIVRE|OCUPADA")
     private String status;
 }
