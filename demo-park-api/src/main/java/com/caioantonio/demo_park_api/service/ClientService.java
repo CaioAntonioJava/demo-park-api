@@ -21,8 +21,8 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     @Transactional
-    public void  delete() {
-
+    public void  delete(Long id) {
+        clientRepository.deleteById(id);
     }
 
 
