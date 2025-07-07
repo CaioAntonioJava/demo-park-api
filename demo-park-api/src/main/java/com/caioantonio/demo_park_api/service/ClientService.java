@@ -21,6 +21,12 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     @Transactional
+    public void  delete() {
+
+    }
+
+
+    @Transactional
     public Client create(Client client) {
         try {
             return clientRepository.save(client);
