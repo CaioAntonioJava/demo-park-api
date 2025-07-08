@@ -50,7 +50,7 @@ public class User implements Serializable {
 
     @LastModifiedDate
     @Column(name = "modification_date")
-    private LocalDate modificationDate;
+    private LocalDateTime modificationDate;
 
     @CreatedBy
     @Column(name = "created_by")

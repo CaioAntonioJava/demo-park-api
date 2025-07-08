@@ -131,4 +131,6 @@ public class ClientController {
         Client client = clientService.getByUserid(jwtUserDetails.getId());
         return ResponseEntity.ok(ClientMapper.toResponseDto(client));
     }
+
+
 }
